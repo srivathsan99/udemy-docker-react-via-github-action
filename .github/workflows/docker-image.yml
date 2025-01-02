@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag srivathsan99\github_action_image
       
     - name: Run tests in Docker container
-      run: docker run -e CI=true my-image-name:$(date +%s) npm run test      
+      run: docker run -e CI=true srivathsan99\github_action_image npm run test      
