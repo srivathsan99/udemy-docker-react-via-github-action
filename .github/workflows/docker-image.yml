@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker build -t my-image-name:$(date +%s) -f Dockerfile.dev .
-      - run: docker run -e CI=true my-image-name:$(date +%s) npm test
+      - run: docker build -t srivathsan99/github-action-test -f Dockerfile.dev .
+      - run: docker run -e CI=true srivathsan99/github-action-test npm test
 
 # name: Docker Image CI
 
