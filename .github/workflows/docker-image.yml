@@ -7,18 +7,27 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    
-    - name: Run test
-      run: docker run -e CI=true my-image-name:$(date +%s) npm run test
-      shell: bash
+    - run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
-      # run: docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_REGISTRY_URL }}:${{ env.DOCKER_IMAGE_TAG_NAME }}
+    # steps:
+    # - uses: actions/checkout@v4
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    
+    # - name: Run test
+    #   run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+    #   shell: bash
+
+  
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run test
+    - run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+
