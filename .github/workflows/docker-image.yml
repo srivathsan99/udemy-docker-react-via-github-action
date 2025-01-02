@@ -15,8 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      run: docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_REGISTRY_URL }}:${{ env.DOCKER_IMAGE_TAG_NAME }}
-      
-    - name: Run tests in Docker container
-      run: docker run -e CI=true ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_REGISTRY_URL }}:${{ env.DOCKER_IMAGE_TAG_NAME }} npm run test      
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+      # run: docker build . --file Dockerfile --tag ${{ env.DOCKER_CONTAINER_NAME }} ${{ env.DOCKER_REGISTRY_URL }}:${{ env.DOCKER_IMAGE_TAG_NAME }}
+      shell: bash
