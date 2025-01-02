@@ -24,10 +24,10 @@ jobs:
     #   shell: bash
 
   
-  # test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Run test
-  #   - run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run test
+      run: docker run -e CI=true my-image-name:$(date +%s) npm run test
 
