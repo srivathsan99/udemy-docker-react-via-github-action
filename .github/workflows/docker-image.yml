@@ -1,45 +1,60 @@
-name: Docker Image CI
-
+name: Deploy Frontend
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v4
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    # - name: NPM test
-    #   run: npm test
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
+      - run: docker run -e CI=true cygnetops/react-test npm test
 
-    - name: Build the Docker image
-      run: |
-        IMAGE_TAG=my-image-name:latest
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-        docker build . --file Dockerfile --tag $IMAGE_TAG
+# name: Docker Image CI
 
-    - name: Run tests in Docker container
-      run: |
-        docker run -e CI=true $IMAGE_TAG npm test
-    # steps:
-    # - uses: actions/checkout@v4
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     # - uses: actions/checkout@v4
+#     # - name: Build the Docker image
+#     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+#     # - name: NPM test
+#     #   run: npm test
+#     - uses: actions/checkout@v4
+
+#     - name: Build the Docker image
+#       run: |
+#         IMAGE_TAG=my-image-name:latest
+#         echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+#         docker build . --file Dockerfile --tag $IMAGE_TAG
+
+#     - name: Run tests in Docker container
+#       run: |
+#         docker run -e CI=true $IMAGE_TAG npm test
+#     # steps:
+#     # - uses: actions/checkout@v4
+#     # - name: Build the Docker image
+#     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     
-    # - name: Run test
-    #   run: docker run -e CI=true my-image-name:$(date +%s) npm run test
-    #   shell: bash
+#     # - name: Run test
+#     #   run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+#     #   shell: bash
 
   
-  # test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Run test
-  #     run: docker run -e CI=true my-image-name:$(date +%s) npm run test
+#   # test:
+#   #   needs: build
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #   - name: Run test
+#   #     run: docker run -e CI=true my-image-name:$(date +%s) npm run test
 
